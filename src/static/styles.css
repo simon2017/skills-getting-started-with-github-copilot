@@ -108,6 +108,18 @@ section h3 {
   content: "👤 ";
 }
 
+.delete-icon {
+  cursor: pointer;
+  color: #d32f2f;
+  font-weight: bold;
+  margin-left: 8px;
+  font-size: 1.1em;
+}
+
+.delete-icon:hover {
+  color: #b71c1c;
+}
+
 .no-participants {
   margin-top: 8px;
   color: #666;

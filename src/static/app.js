@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const participantsList = details.participants.length
           ? `<ul class="participant-list">${details.participants
-              .map((participant) => `<li>${participant}</li>`)
+              .map((participant) => `<li>${participant} <span class="delete-icon" data-activity="${name}" data-email="${participant}">×</span></li>`)
               .join("")}</ul>`
           : `<p class="no-participants">No participants signed up yet.</p>`;
 
@@ -93,4 +93,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize app
   fetchActivities();
+
+  // Handle delete participant
+  document.addEventListener('click', async (event) => {
+    if (event.target.classList.contains('delete-icon')) {
+      const activity = event.target.dataset.activity;
+      const email = event.target.dataset.email;
+      try {
+        const response = await fetch(
+          `/activities/${encodeURIComponent(activity)}/signup?email=${encodeURIComponent(email)}`,
+          {
+            method: "DELETE",
+          }
+        );
+        if (response.ok) {
+          fetchActivities(); // Refresh the activities list
+        } else {
+          alert("Failed to unregister participant.");
+        }
+      } catch (error) {
+        alert("Error unregistering participant.");
+        console.error("Error:", error);
+      }
+    }
+  });
 });
